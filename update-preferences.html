@@ -34,6 +34,12 @@
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/style.css?v=1.3.4.6" rel="stylesheet">
 
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+  </style>
+
   <script src="js/modernizr.js"></script>
 
   <!-- Google Page Hide, prevents page flicker. Place before Analytics code -->
@@ -99,7 +105,14 @@
   </nav>
 
   <h1 class="text-center">Update Your Preferences</h1>
-  <div id="update-preferences">
+
+  <div id="update">
+    <form type="submit">
+      <input type="text" name="email" v-model="email" />
+
+      <div v-cloak>{{ message }}</div>
+      <div v-cloak>{{ email }}</div>
+    </form>
 
   </div>
 
@@ -234,10 +247,37 @@
 
 <script>
   new Vue({
-    el: '.test-component',
-    template: `
-      <h3>HAI</h3>
-    `
+    el: '#update',
+    mounted () {
+      // get email address from url
+      const utmVars = this.getUTMVars()
+      console.log('utmVars', utmVars)
+      this.email = utmVars.email ? utmVars.email : ''
+    },
+    data: {
+      message: 'oh hello',
+      email: ''
+    },
+    methods: {
+      getUTMVars () {
+        const queries = {}
+
+        if (window.location.search) {
+          const query = document.location.search.substr(1).split('&');
+          query.forEach(q => {
+            const i = q.split('=')
+            const utm_value = i[1]
+            const _utm = i[0].split('_')
+            const _utm_key = _utm[1] ? _utm[1] : _utm[0]
+            const key = _utm_key.toString() !== 'email'
+              ? _utm_key.toString().toUpperCase()
+              : _utm_key.toString()
+            queries[key] = utm_value.toString()
+          })
+          return queries
+        }
+      }
+    }
   })
 </script>
 
