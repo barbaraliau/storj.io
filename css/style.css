@@ -2595,6 +2595,50 @@ Conversion
 
 /* --------------------------------
 
+Email Preferences
+
+-------------------------------- */
+.email-prefs .update-form, .email-prefs .email-group {
+  display: flex;
+}
+
+.email-prefs .input-group {
+  margin: 25px 5px;
+  box-sizing: border-box;
+}
+
+.email-prefs .email-input {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.email-prefs .email-input label {
+  font-size: 18px;
+  display: flex;
+}
+
+.email-prefs #mce-EMAIL {
+  width: 320px;
+  margin: 0 0 1em 0;
+}
+
+.email-prefs .asterisk {
+  color: red;
+  text-align: right;
+  font-weight: normal;
+  font-size: 12.5px;
+  position: relative;
+  top: 27px;
+  left: 10px;
+}
+
+.email-prefs .email-group [type="checkbox"] {
+  width: 30px;
+}
+
+/* --------------------------------
+
 Media Queries
 
 -------------------------------- */

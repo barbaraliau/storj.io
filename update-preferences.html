@@ -65,7 +65,7 @@
   <script type="text/javascript" src="js/segment.js"></script>
 </head>
 
-<body class="email-prefs">
+<body class="page email-prefs">
 
   <nav class="navbar navbar-page navbar-default menu">
     <div class="container">
@@ -104,17 +104,45 @@
     </div>
   </nav>
 
-  <h1 class="text-center">Update Your Preferences</h1>
+  <div class="container">
+    <div class="row">
+      <h1 class="text-center">Update Your Preferences</h1>
+    </div>
 
-  <div id="update">
-    <form type="submit">
-      <input type="text" name="email" v-model="email" />
+    <div id="update">
+      <form type="submit" class="update_form">
+        <div class="mc-field-group input-group email-input">
+          <label for="mce-EMAIL">
+            <h3>Email Address</h3>
+            <span class="asterisk">* required</span>
+          </label>
+          <input type="email" name="EMAIL" v-model="email" class="required email" id="mce-EMAIL"/>
 
-      <div v-cloak>{{ message }}</div>
-      <div v-cloak>{{ email }}</div>
-    </form>
+        </div>
 
+        <div class="mc-field-group input-group">
+          <h3>Subscribe to Email Groups</h3>
+          <div class="email-group">
+            <input name="group[11693[2]" id="mce-group[11693]-11693-0"
+            type="checkbox" value="2" >
+            <label for="mce-group[11693]-11693-0">Newsletter</label>
+          </div>
+        </div>
+
+        <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+         <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_edba9fc4ce8b9095a31859cba_01f64923fa" tabindex="-1" value=""></div>
+
+        <button class="btn btn-block btn-submit submit-prefs"
+          @submit.prevent="handleSubmit"
+          @click.prevent="handleSubmit"
+        >
+          Update
+        </button>
+      </form>
+    </div>
   </div>
+
+  <div class="spacer40"></div>
 
   <footer>
     <div class="container">
@@ -238,8 +266,8 @@
     </div>
   </footer>
 
-  <script src="js/jquery-2.1.1.js"></script>
-  <script src="js/bootstrap.min.js"></script>
+  <!-- <script src="js/jquery-2.1.1.js"></script> -->
+  <!-- <script src="js/bootstrap.min.js"></script> -->
   <script type="text/javascript" src="js/typewriting.min.js"></script>
   <script type="text/javascript" src="js/vue.js"></script>
 
@@ -249,14 +277,15 @@
   new Vue({
     el: '#update',
     mounted () {
-      // get email address from url
+      // Get email address, utms, and other queries from URL
       const utmVars = this.getUTMVars()
       console.log('utmVars', utmVars)
       this.email = utmVars.email ? utmVars.email : ''
+      this.utmVars = utmVars
     },
     data: {
-      message: 'oh hello',
-      email: ''
+      email: '',
+      utmVars: {}
     },
     methods: {
       getUTMVars () {
@@ -276,6 +305,11 @@
           })
           return queries
         }
+      },
+
+      handleSubmit () {
+        console.log('submit')
+        // analytics.identify(this.email, this.traits)
       }
     }
   })
